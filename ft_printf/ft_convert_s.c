@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/12 11:38:26 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/24 22:33:24 by rcarette         ###   ########.fr       */
+/*   Created: 2017/01/25 20:35:05 by rcarette          #+#    #+#             */
+/*   Updated: 2017/01/26 17:38:42 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,13 @@ void	precision_inf_string(char *str, t_printf *par, t_buff *buff)
 	width = (par->width_field - par->precision);
 	if (par->subtraction == 0)
 	{
-		//(par->zero == 1) ? ft_print_n(width, '0') : 0;
 		(par->zero == 1) ? print_character(width, '0', buff) : 0;
 		(par->zero == 0) ? print_character(width, ' ', buff) : 0;
-		//(par->zero == 0) ? ft_print_n(width, ' ') : 0;
 		ft_read_str(str, par->precision, buff);
 	}
 	else if (par->subtraction == 1)
 	{
 		ft_read_str(str, par->precision, buff);
-		//ft_print_n(width, ' ');
 		print_character(width, ' ', buff);
 	}
 	par->number_of_character += (par->precision);
@@ -76,18 +73,13 @@ void	no_precision(char *tab, t_printf *par, t_buff *buff)
 	width = (par->width_field - ft_strlen(tab));
 	if (par->subtraction == 0)
 	{
-		//(par->zero == 1) ? ft_print_n(width, '0') : 0;
-		//(par->zero == 0) ? ft_print_n(width, ' ') : 0;
 		(par->zero == 1) ? print_character(width, '0', buff) : 0;
 		(par->zero == 0) ? print_character(width, ' ', buff) : 0;
 		manage_buffer(buff, tab);
-		//write(1, tab, ft_strlen(tab));
 	}
 	else if (par->subtraction == 1)
 	{
 		manage_buffer(buff, tab);
-		//write(1, tab, ft_strlen(tab));
-		//ft_print_n(width, ' ');
 		print_character(width, ' ', buff);
 	}
 	par->number_of_character += ft_strlen(tab);
@@ -102,18 +94,13 @@ void	precision_sup_string(char *tab, t_printf *par, t_buff *buff)
 	width = (par->width_field - ft_strlen(tab));
 	if (par->subtraction == 0)
 	{
-		//(par->zero == 1) ? ft_print_n(width, '0') : 0;
-		//(par->zero == 0) ? ft_print_n(width, ' ') : 0;
 		(par->zero == 1) ? print_character(width, '0', buff) : 0;
 		(par->zero == 0) ? print_character(width, ' ', buff) : 0;
 		manage_buffer(buff, tab);
-		//write(1, tab, ft_strlen(tab));
 	}
 	else if (par->subtraction == 1)
 	{
-		//write(1, tab, ft_strlen(tab));
 		manage_buffer(buff, tab);
-		//ft_print_n(width, ' ');
 		print_character(width, ' ', buff);
 	}
 	if (width > 0)
@@ -129,7 +116,7 @@ void	ft_convert_s(t_printf *parameter, va_list *ap, t_buff *buff)
 	init_tab_null(tab);
 	if (parameter->opt_l == 1)
 	{
-		// @unicode
+		ft_convert_ls(parameter, ap, buff);
 		return ;
 	}
 	if (!(str = va_arg(*ap, char *)))

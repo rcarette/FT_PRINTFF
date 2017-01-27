@@ -6,13 +6,14 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 18:05:56 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/25 05:46:06 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/27 18:27:33 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <wchar.h>
 #include <string.h>
+#include <locale.h>
 
 int		ft_printf(const char *format, ...)
 {
@@ -31,12 +32,13 @@ int		ft_printf(const char *format, ...)
 	return (size);
 }
 
-/*int main(int argc, const char *argv[])
+/*int main(void)
 {
 	int		x;
-	x = ft_printf("{%05.Z}\n");
-	printf("%d\n", x); 
-	x = printf("{%05.Z}\n");
+	setlocale(LC_ALL, "");
+	x = ft_printf("%s %d %p %x %% %S", "bonjour ", 42, &free, 42, L"لحم خنزير");
+	printf("%d\n", x);
+	x = printf("%s %d %p %x %% %S", "bonjour ", 42, &free, 42, L"لحم خنزير");
 	printf("%d\n", x);
 	return 0;
 }*/

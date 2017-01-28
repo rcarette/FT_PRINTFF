@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/24 17:50:59 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/26 20:59:09 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/28 17:23:27 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,3 @@ int		manage_buffer_character(t_buff *buff, char character)
 	++buff->position;
 	return (1);
 }
-

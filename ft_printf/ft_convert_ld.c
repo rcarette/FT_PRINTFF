@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/12 13:16:36 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/25 05:23:34 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/28 13:44:37 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,20 @@ void	itoa_base_ld(long int nbr, char board[64])
 		t = (-t);
 		++size;
 	}
-	while (t > 0)
-	{
-		++size;
-		t = (t / 10);
-	}
+	size += ft_getsize(t, 10);
 	ft_memset(board, '\0', 64);
 	while (temporary > 0)
 	{
 		board[--size] = (temporary % 10) + '0';
 		temporary = (temporary / 10);
 	}
-	if (negative)
-		board[0] = '-';
+	(negative) ? board[0] = '-' : 0;
 }
 
 void	no_precision_ld_null(t_printf *par, t_buff *buff)
 {
 	int		width;
+
 	par->space = (par->addition == 1) ? 0 : par->space;
 	width = (par->width_field - par->addition - 1 - par->space);
 	if (par->subtraction == 0)
@@ -66,8 +62,7 @@ void	no_precision_ld_null(t_printf *par, t_buff *buff)
 		print_character(width, ' ', buff);
 	}
 	par->number_of_character += (1 + par->space + par->addition);
-	if (width > 0)
-		par->number_of_character += (width);
+	(width > 0) ? par->number_of_character += (width) : 0;
 }
 
 void	precision_ld_sup_null(t_printf *par, t_buff *buff)
@@ -95,10 +90,8 @@ void	precision_ld_sup_null(t_printf *par, t_buff *buff)
 		print_character(width, ' ', buff);
 	}
 	par->number_of_character += ((1) + par->space + par->addition);
-	if (width > 0)
-		par->number_of_character += (width);
-	if (preci > 0)
-		par->number_of_character += (preci);
+	(width > 0) ? par->number_of_character += (width) : 0;
+	(preci > 0) ? par->number_of_character += (preci) : 0;
 }
 
 void	precision_ld_inf_null(t_printf *par, t_buff *buff)
@@ -127,90 +120,86 @@ void	precision_ld_inf_null(t_printf *par, t_buff *buff)
 void	no_precision_ld(char *tab, t_printf *par, int sub, t_buff *buff)
 {
 	int		width;
-	
+
 	par->space = (par->addition == 1 || tab[0] == '-') ? 0 : par->space;
 	par->addition = (sub == 1) ? 0 : par->addition;
 	(tab[0] == '-') ? ++tab : 0;
-	width = (par->width_field - par->space - par->addition - sub - ft_strlen(tab));
+	width = (par->width_field - par->space - par->addition -
+			sub - ft_strlen(tab));
 	if (par->subtraction == 0)
 	{
 		(par->zero == 0) ? print_character(width, ' ', buff) : 0;
 		(par->space == 1) ? manage_buffer(buff, " ") : 0;
-		(par->addition == 1) ? manage_buffer(buff, "+") :0;
+		(par->addition == 1) ? manage_buffer(buff, "+") : 0;
 		(sub == 1) ? manage_buffer(buff, "-") : 0;
 		(par->zero == 1) ? print_character(width, '0', buff) : 0;
 		manage_buffer(buff, tab);
 	}
 	else if (par->subtraction == 1)
 	{
-		(par->space == 1) ? manage_buffer(buff, " ") : 0;
-		(par->addition == 1) ? manage_buffer(buff, "+") :0;
-		(sub == 1) ? manage_buffer(buff, "-") : 0;
+		subtraction_d(par, sub, buff);
 		manage_buffer(buff, tab);
 		print_character(width, ' ', buff);
 	}
-	par->number_of_character += (ft_strlen(tab) + par->space + par->addition + sub);
-	if (width > 0)
-		par->number_of_character += (width);
+	par->number_of_character += (ft_strlen(tab) + par->space +
+			par->addition + sub);
+	(width > 0) ? par->number_of_character += (width) : 0;
 }
 
 void	precision_ld_inf(char *tab, t_printf *par, int sub, t_buff *buff)
 {
 	int		width;
 
-	width = (par->width_field - par->addition - par->space - sub - ft_strlen(tab));
+	width = (par->width_field - par->addition - par->space - sub
+			- ft_strlen(tab));
 	if (par->subtraction == 0)
 	{
 		(par->space == 1) ? manage_buffer(buff, " ") : 0;
 		print_character(width, ' ', buff);
-		(par->addition == 1) ? manage_buffer(buff, "+") :0;
+		(par->addition == 1) ? manage_buffer(buff, "+") : 0;
 		(sub == 1) ? manage_buffer(buff, "-") : 0;
 		manage_buffer(buff, tab);
 	}
 	else if (par->subtraction == 1)
 	{
 		(par->space == 1) ? manage_buffer(buff, " ") : 0;
-		(par->addition == 1) ? manage_buffer(buff, "+") :0;
+		(par->addition == 1) ? manage_buffer(buff, "+") : 0;
 		(sub == 1) ? manage_buffer(buff, "-") : 0;
 		manage_buffer(buff, tab);
 		print_character(width, ' ', buff);
 	}
-	par->number_of_character += (ft_strlen(tab) + par->addition + sub + par->space);
-	if (width > 0)
-		par->number_of_character += (width);
+	par->number_of_character += (ft_strlen(tab) + par->addition +
+			sub + par->space);
+	(width > 0) ? par->number_of_character += (width) : 0;
 }
 
 void	precision_ld_sup(char *tab, t_printf *par, int sub, t_buff *buff)
 {
 	int		width;
 	int		preci;
-	
+
 	preci = (par->precision - ft_strlen(tab));
-	width = (par->width_field - par->addition - sub - par->space - ft_strlen(tab) - preci);
+	width = (par->width_field - par->addition - sub - par->space
+			- ft_strlen(tab) - preci);
 	if (par->subtraction == 0)
 	{
-		print_character(width, ' ', buff);
-		(par->space == 1) ? manage_buffer(buff, " ") : 0;
-		(par->addition == 1) ? manage_buffer(buff, "+") :0;
-		(sub == 1) ? manage_buffer(buff, "-") : 0;
+		subtraction_preci(par, sub, width, buff);
 		print_character(preci, '0', buff);
 		manage_buffer(buff, tab);
 	}
 	else if (par->subtraction == 1)
 	{
 		(par->space == 1) ? manage_buffer(buff, " ") : 0;
-		(par->addition == 1) ? manage_buffer(buff, "+") :0;
+		(par->addition == 1) ? manage_buffer(buff, "+") : 0;
 		(sub == 1) ? manage_buffer(buff, "-") : 0;
 		print_character(preci, '0', buff);
 		manage_buffer(buff, tab);
 		print_character(width, ' ', buff);
 	}
-	par->number_of_character += (ft_strlen(tab) + par->addition + par->space + sub);
-	if (width > 0)
-		par->number_of_character += (width);
-	if (preci > 0)
-		par->number_of_character += (preci);
-
+	par->number_of_character += (ft_strlen(tab) + par->addition
+			+ par->space + sub);
+	(width > 0) ? par->number_of_character += (width) : 0;
+	(preci > 0) ? par->number_of_character += (preci) : 0;
 }
 
 void	precision_ld(char *tab, t_printf *par, int sub, t_buff *buff)
@@ -223,7 +212,6 @@ void	precision_ld(char *tab, t_printf *par, int sub, t_buff *buff)
 	else if (par->precision <= ft_strlen(tab))
 		precision_ld_inf(tab, par, sub, buff);
 }
-
 
 void	ft_convert_ld(t_printf *par, va_list *ap, t_buff *buff)
 {

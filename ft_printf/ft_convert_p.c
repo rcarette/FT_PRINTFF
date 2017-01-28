@@ -6,13 +6,13 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/11 18:35:39 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/25 05:11:41 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/28 13:47:28 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	print_character(int x, char character, t_buff *buff)
+void		print_character(int x, char character, t_buff *buff)
 {
 	int		ite;
 	char	*new;
@@ -148,7 +148,7 @@ void		no_precision_p(char *tab, t_printf *par, t_buff *buff)
 		par->number_of_character += (width);
 }
 
-void			precision_p_inf(char *tab, t_printf *par, t_buff *buff)
+void		precision_p_inf(char *tab, t_printf *par, t_buff *buff)
 {
 	int		width;
 
@@ -170,7 +170,7 @@ void			precision_p_inf(char *tab, t_printf *par, t_buff *buff)
 	par->number_of_character += (2) + ft_strlen(tab);
 }
 
-void			precision_p_sup(char *tab, t_printf *par, t_buff *buff)
+void		precision_p_sup(char *tab, t_printf *par, t_buff *buff)
 {
 	int		width;
 	int		preci;
@@ -192,13 +192,13 @@ void			precision_p_sup(char *tab, t_printf *par, t_buff *buff)
 		print_character(width, ' ', buff);
 	}
 	par->number_of_character += (ft_strlen(tab) + 2);
-	if(width > 0)
+	if (width > 0)
 		par->number_of_character += (width);
-	if(preci > 0)
+	if (preci > 0)
 		par->number_of_character += (preci);
 }
 
-void			precision_p(char *tab, t_printf *par, t_buff *buff)
+void		precision_p(char *tab, t_printf *par, t_buff *buff)
 {
 	if (par->precision > ft_strlen(tab))
 		precision_p_sup(tab, par, buff);
@@ -206,7 +206,7 @@ void			precision_p(char *tab, t_printf *par, t_buff *buff)
 		precision_p_inf(tab, par, buff);
 }
 
-void			ft_convert_p(t_printf *par, va_list *ap, t_buff *buff)
+void		ft_convert_p(t_printf *par, va_list *ap, t_buff *buff)
 {
 	unsigned long	nbr;
 	char			*tab;

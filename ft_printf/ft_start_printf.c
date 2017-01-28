@@ -6,14 +6,14 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 00:40:58 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/25 05:37:43 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/28 18:08:22 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int				ft_parse_modifier(char *t, t_printf *parameter,
-		int j, int permut)
+int				ft_parse_modifier(char *t, t_printf *parameter, int j,
+		int permut)
 {
 	while (t[j] && (t[j] == 'j' || t[j] == 'h' || t[j] == 'z' || t[j] == 'l'))
 	{
@@ -40,7 +40,7 @@ static int				ft_parse_modifier(char *t, t_printf *parameter,
 	return (j);
 }
 
-static int				ft_parse_precision(char *t, t_printf *parameter)
+int				ft_parse_precision(char *t, t_printf *parameter)
 {
 	int		i;
 	int		size;
@@ -62,7 +62,7 @@ static int				ft_parse_precision(char *t, t_printf *parameter)
 	return (ft_getsize(parameter->precision, 10) + size);
 }
 
-static int				ft_parse_indicateur(char *t, t_printf *parameter)
+int				ft_parse_indicateur(char *t, t_printf *parameter)
 {
 	int		i;
 
@@ -88,8 +88,8 @@ static int				ft_parse_indicateur(char *t, t_printf *parameter)
 	return (i);
 }
 
-static int				ft_parsing(char *temporary, va_list *ap,
-		t_printf *parameter, t_buff *buff)
+int				ft_parsing(char *temporary, va_list *ap, t_printf *parameter,
+		t_buff *buff)
 {
 	char	**flags;
 	int		i;
@@ -98,7 +98,7 @@ static int				ft_parsing(char *temporary, va_list *ap,
 
 	i = -1;
 	size = ft_parse_indicateur(temporary, parameter);
-	flags = ft_strsplit("s S c C d i x X o O p u U D %", ' ');
+	flags = ft_strsplit("s S c C d i x X o O p u U D b %", ' ');
 	while (flags[++i])
 		if (temporary[size] == flags[i][0])
 		{
@@ -111,36 +111,5 @@ static int				ft_parsing(char *temporary, va_list *ap,
 	no_flags(parameter, temporary[size], buff);
 	++size;
 	(flags != NULL) ? ft_clear(flags) : 0;
-	return (size);
-}
-
-
-int						ft_start_printf(const char *format, va_list *ap)
-{
-	char		*temporary;
-	int			ite;
-	int			size;
-	t_printf	*parameter;
-	t_buff		buff;
-	
-	init_buffer(&buff);
-	ite = -1;
-	size = 0;
-	parameter = ft_init_t_printf();
-	while (format[++ite])
-	{
-		temporary = (char *)&format[ite];
-		if (format[ite] != '%')
-			size += manage_buffer_character(&buff, format[ite]);
-		else
-		{
-			ite += ft_parsing(++temporary, ap, parameter, &buff);
-			size += parameter->number_of_character;
-			free(parameter);
-			parameter = ft_init_t_printf();
-		}
-	}
-	write(1, buff.buffer, buff.position);
-	free(parameter);
 	return (size);
 }

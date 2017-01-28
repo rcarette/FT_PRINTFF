@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/12 11:31:19 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/25 05:45:18 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/28 18:56:17 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	no_flags(t_printf *par, char character, t_buff *buff)
 {
 	int		width;
-	
+
 	width = (par->width_field - 1);
 	if (par->subtraction == 0)
 	{
@@ -33,9 +33,11 @@ void	no_flags(t_printf *par, char character, t_buff *buff)
 		par->number_of_character += (width);
 }
 
-void	(*ft_pointor_func(int position))(t_printf *parameter, va_list *ap, t_buff *buff)
+void	(*ft_pointor_func(int position))(t_printf *parameter,
+		va_list *ap, t_buff *buff)
 {
-	void	(*pointor_tab[16])(t_printf *parameter, va_list *ap, t_buff *buff);
+	void	(*pointor_tab[17])(t_printf *parameter, va_list *ap, t_buff *buff);
+
 	pointor_tab[0] = ft_convert_s;
 	pointor_tab[1] = ft_convert_ls;
 	pointor_tab[2] = ft_convert_c;
@@ -50,8 +52,8 @@ void	(*ft_pointor_func(int position))(t_printf *parameter, va_list *ap, t_buff *
 	pointor_tab[11] = ft_convert_u;
 	pointor_tab[12] = ft_convert_lu;
 	pointor_tab[13] = ft_convert_ld;
-	pointor_tab[14] = ft_convert_mod;
-	pointor_tab[15] = NULL;
-
+	pointor_tab[14] = conv_binary;
+	pointor_tab[15] = ft_convert_mod;
+	pointor_tab[16] = NULL;
 	return (pointor_tab[position]);
 }

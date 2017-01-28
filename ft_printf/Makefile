@@ -6,7 +6,7 @@
 #    By: rcarette <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/23 20:59:07 by rcarette          #+#    #+#              #
-#    Updated: 2017/01/25 05:13:45 by rcarette         ###   ########.fr        #
+#    Updated: 2017/01/28 12:01:18 by rcarette         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,7 +89,6 @@ SOURCE = ft_convert_c.c\
 		 ft_show_parameter.c\
 		 ft_printf.c\
 		 ft_pointor_func.c\
-		 ft_check_string.c\
 		 ft_start_printf.c\
 		 init_t_printf.c\
 		 buffer.c\

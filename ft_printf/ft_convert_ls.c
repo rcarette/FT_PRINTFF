@@ -6,7 +6,7 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/12 13:14:21 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/27 18:27:20 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/28 09:48:48 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,17 +353,15 @@ void	precision_ls(wchar_t *unicode, t_printf *par)
 	width = 0;
 	binary_unicode = treatement_unciode(unicode);
 	size_character = count_precision_ls(binary_unicode, par, &octets);
-	(width > 0) ? width = par->width_field - octets : 0;
+	width = ((par->width_field - octets) > 0) ? par->width_field - octets : par->width_field;
 	if (par->subtraction == 0)
 	{
 		(par->zero == 1) ? print_x_character(width, '0') : print_x_character(width, ' ');
-		if (size_character)
-			impr_unicode_preci(binary_unicode, size_character);
+		(size_character) ? impr_unicode_preci(binary_unicode, size_character) : 0;
 	}
 	else if (par->subtraction == 1)
 	{
-		if (size_character)
-			impr_unicode_preci(binary_unicode, size_character);
+		(size_character) ? impr_unicode_preci(binary_unicode, size_character) : 0;
 		print_x_character(width, ' ');
 	}
 	par->number_of_character += octets;

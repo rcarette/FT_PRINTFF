@@ -6,13 +6,13 @@
 /*   By: rcarette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/12 13:20:26 by rcarette          #+#    #+#             */
-/*   Updated: 2017/01/28 17:22:52 by rcarette         ###   ########.fr       */
+/*   Updated: 2017/01/28 18:50:41 by rcarette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-ULL		ft_cast_x(va_list *ap, t_printf *parameter)
+ULL		binary_cast(va_list *ap, t_printf *parameter)
 {
 	unsigned long long value;
 
@@ -33,7 +33,7 @@ ULL		ft_cast_x(va_list *ap, t_printf *parameter)
 	return (value);
 }
 
-void	no_precision_x_xx_null(t_printf *par, t_buff *buff)
+void	no_precision_binary_null(t_printf *par, t_buff *buff)
 {
 	int		width;
 
@@ -54,7 +54,7 @@ void	no_precision_x_xx_null(t_printf *par, t_buff *buff)
 		par->number_of_character += (width);
 }
 
-void	precision_x_xx_null(t_printf *par, t_buff *buff)
+void	precision_binary_null(t_printf *par, t_buff *buff)
 {
 	if (par->precision >= 1)
 	{
@@ -82,15 +82,15 @@ void	precision_x_xx_null(t_printf *par, t_buff *buff)
 	par->number_of_character += (par->width_field);
 }
 
-void	ft_treatement_x_xx_null(t_printf *par, t_buff *buff)
+void	binary_null(t_printf *par, t_buff *buff)
 {
 	if (par->precision_point == 0)
-		no_precision_x_xx_null(par, buff);
+		no_precision_binary_null(par, buff);
 	else if (par->precision_point == 1)
-		precision_x_xx_null(par, buff);
+		precision_binary_null(par, buff);
 }
 
-void	no_precision_x(char *tab, t_printf *par, t_buff *buff)
+void	no_precision_binary(char *tab, t_printf *par, t_buff *buff)
 {
 	int		ox;
 	int		width;
@@ -101,14 +101,14 @@ void	no_precision_x(char *tab, t_printf *par, t_buff *buff)
 	{
 		(par->zero == 0) ? print_character(width, ' ', buff) : 0;
 		if (par->hash == 1)
-			manage_buffer(buff, (par->flags_current == 'x') ? "0x" : "0X");
+			manage_buffer(buff, "0b");
 		(par->zero == 1) ? print_character(width, '0', buff) : 0;
 		manage_buffer(buff, tab);
 	}
 	else if (par->subtraction == 1)
 	{
 		if (par->hash == 1)
-			manage_buffer(buff, (par->flags_current == 'x') ? "0x" : "0X");
+			manage_buffer(buff, "0b");
 		manage_buffer(buff, tab);
 		print_character(width, ' ', buff);
 	}
@@ -116,7 +116,7 @@ void	no_precision_x(char *tab, t_printf *par, t_buff *buff)
 	(width > 0) ? par->number_of_character += (width) : 0;
 }
 
-void	precision_inf(char *tab, t_printf *par, t_buff *buff)
+void	precision_inf_binary(char *tab, t_printf *par, t_buff *buff)
 {
 	int		width;
 	int		ox;
@@ -127,13 +127,13 @@ void	precision_inf(char *tab, t_printf *par, t_buff *buff)
 	{
 		print_character(width, ' ', buff);
 		if (par->hash == 1)
-			manage_buffer(buff, (par->flags_current == 'x') ? "0x" : "0X");
+			manage_buffer(buff, "0b");
 		manage_buffer(buff, tab);
 	}
 	else if (par->subtraction == 1)
 	{
 		if (par->hash == 1)
-			manage_buffer(buff, (par->flags_current == 'x') ? "0x" : "0X");
+			manage_buffer(buff, "0b");
 		manage_buffer(buff, tab);
 		print_character(width, ' ', buff);
 	}
@@ -141,16 +141,16 @@ void	precision_inf(char *tab, t_printf *par, t_buff *buff)
 	(width > 0) ? par->number_of_character += (width) : 0;
 }
 
-void	sub_preci_null(t_printf *par, t_buff *buff, char *tab, int width)
+void	sub_preci_null_b(t_printf *par, t_buff *buff, char *tab, int width)
 {
 	print_character(width, ' ', buff);
 	if (par->hash == 1)
-		manage_buffer(buff, (par->flags_current == 'x') ? "0x" : "0X");
+		manage_buffer(buff, "0b");
 	print_character(par->precision - ft_strlen(tab), '0', buff);
 	manage_buffer(buff, tab);
 }
 
-void	precision_sup(char *tab, t_printf *par, t_buff *buff)
+void	precision_sup_binary(char *tab, t_printf *par, t_buff *buff)
 {
 	int		ox;
 	int		width;
@@ -159,11 +159,11 @@ void	precision_sup(char *tab, t_printf *par, t_buff *buff)
 	width = (par->width_field - ft_strlen(tab) - ox -
 			(par->precision - ft_strlen(tab)));
 	if (par->subtraction == 0)
-		sub_preci_null(par, buff, tab, width);
+		sub_preci_null_b(par, buff, tab, width);
 	else if (par->subtraction == 1)
 	{
 		if (par->hash == 1)
-			manage_buffer(buff, (par->flags_current == 'x') ? "0x" : "0X");
+			manage_buffer(buff, "0b");
 		print_character(par->precision - ft_strlen(tab), '0', buff);
 		manage_buffer(buff, tab);
 		print_character(width, ' ', buff);
@@ -174,28 +174,26 @@ void	precision_sup(char *tab, t_printf *par, t_buff *buff)
 		par->number_of_character += (par->precision - ft_strlen(tab));
 }
 
-void	ft_convert_x(t_printf *par, va_list *ap, t_buff *buffer)
+void	conv_binary(t_printf *par, va_list *ap, t_buff *buffer)
 {
 	unsigned long long		value;
-	char					*tab;
-	static char				*x = "0123456789abcdef";
-	static char				*xx = "0123456789ABCDEF";
+	char					tab[64];
+	static char				*b = "01";
 
-	value = ft_cast_x(ap, par);
+	value = binary_cast(ap, par);
 	if (value == 0)
 	{
-		ft_treatement_x_xx_null(par, buffer);
+		binary_null(par, buffer);
 		return ;
 	}
-	tab = itoa_base_p(value, (par->flags_current == 'X') ? xx : x);
+	itoa_base_unsigned(value, tab, 2, "01");
 	if (par->precision_point == 0)
-		no_precision_x(tab, par, buffer);
+		no_precision_binary(tab, par, buffer);
 	else if (par->precision_point == 1)
 	{
 		if (par->precision <= ft_strlen(tab))
-			precision_inf(tab, par, buffer);
+			precision_inf_binary(tab, par, buffer);
 		else if (par->precision > ft_strlen(tab))
-			precision_sup(tab, par, buffer);
+			precision_sup_binary(tab, par, buffer);
 	}
-	free(tab);
 }
